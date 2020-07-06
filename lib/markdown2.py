@@ -174,13 +174,14 @@ def markdown_path(path, encoding="utf-8",
 def markdown(text, html4tags=False, tab_width=DEFAULT_TAB_WIDTH,
              safe_mode=None, extras=None, link_patterns=None,
              footnote_title=None, footnote_return_symbol=None,
-             use_file_vars=False, cli=False):
+             use_file_vars=False, cli=False, inline_image_uri_filter=None):
     return Markdown(html4tags=html4tags, tab_width=tab_width,
                     safe_mode=safe_mode, extras=extras,
                     link_patterns=link_patterns,
                     footnote_title=footnote_title,
                     footnote_return_symbol=footnote_return_symbol,
-                    use_file_vars=use_file_vars, cli=cli).convert(text)
+                    use_file_vars=use_file_vars, cli=cli,
+                    inline_image_uri_filter=inline_image_uri_filter).convert(text)
 
 
 class Markdown(object):
@@ -191,6 +192,8 @@ class Markdown(object):
     # This can be set via (a) subclassing and (b) the constructor
     # "extras" argument.
     extras = None
+
+    inline_image_uri_filter = None
 
     urls = None
     titles = None
@@ -210,7 +213,7 @@ class Markdown(object):
     def __init__(self, html4tags=False, tab_width=4, safe_mode=None,
                  extras=None, link_patterns=None,
                  footnote_title=None, footnote_return_symbol=None,
-                 use_file_vars=False, cli=False):
+                 use_file_vars=False, cli=False, inline_image_uri_filter=None):
         if html4tags:
             self.empty_element_suffix = ">"
         else:
@@ -258,6 +261,8 @@ class Markdown(object):
         if "smarty-pants" in self.extras:
             self._escape_table['"'] = _hash_text('"')
             self._escape_table["'"] = _hash_text("'")
+
+        self.inline_image_uri_filter = inline_image_uri_filter
 
     def reset(self):
         self.urls = {}
@@ -1423,6 +1428,10 @@ class Markdown(object):
                         title_str = ''
                     if is_img:
                         img_class_str = self._html_class_str_from_tag("img")
+
+                        if self.inline_image_uri_filter is not None:
+                            url = self.inline_image_uri_filter(url)
+
                         result = '<img src="%s" alt="%s"%s%s%s' \
                             % (_html_escape_url(url, safe_mode=self.safe_mode),
                                _xml_escape_attr(link_text),
