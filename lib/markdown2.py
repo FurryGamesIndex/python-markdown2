@@ -1431,6 +1431,8 @@ class Markdown(object):
 
                         if self.inline_image_uri_filter is not None:
                             url = self.inline_image_uri_filter(url)
+                            url = url.replace('*', self._escape_table['*']) \
+                                     .replace('_', self._escape_table['_'])
 
                         result = '<img src="%s" alt="%s"%s%s%s' \
                             % (_html_escape_url(url, safe_mode=self.safe_mode),
@@ -2665,7 +2667,7 @@ def main(argv=None):
     log.setLevel(opts.log_level)
 
     if opts.patch_info:
-        print("revision: 1")
+        print("revision: 2")
         print("""FurryGamesIndex patched/modified python-markdown2
 see https://github.com/FurryGamesIndex/python-markdown2""");
         sys.exit(0)
