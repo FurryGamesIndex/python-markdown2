@@ -96,8 +96,13 @@ see <https://github.com/trentm/python-markdown2/wiki/Extras> for details):
 #   not yet sure if there implications with this. Compare 'pydoc sre'
 #   and 'perldoc perlre'.
 
+"""FurryGamesIndex patched/modified python-markdown2
+see https://github.com/FurryGamesIndex/python-markdown2
+"""
+__fgi_patch_ver__ = 4
+
 __version_info__ = (2, 3, 10)
-__version__ = '.'.join(map(str, __version_info__))
+__version__ = '.'.join(map(str, __version_info__)) + "+FGIv" + str(__fgi_patch_ver__)
 __author__ = "Trent Mick"
 
 import sys
