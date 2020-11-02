@@ -2656,18 +2656,10 @@ def main(argv=None):
                       help="run internal self-tests (some doctests)")
     parser.add_option("--compare", action="store_true",
                       help="run against Markdown.pl as well (for testing)")
-    parser.add_option("--patch-info", action="store_true",
-                      help="Show patch info from FurryGamesIndex")
     parser.set_defaults(log_level=logging.INFO, compare=False,
                         encoding="utf-8", safe_mode=None, use_file_vars=False)
     opts, paths = parser.parse_args()
     log.setLevel(opts.log_level)
-
-    if opts.patch_info:
-        print("revision: 3")
-        print("""FurryGamesIndex patched/modified python-markdown2
-see https://github.com/FurryGamesIndex/python-markdown2""");
-        sys.exit(0)
 
     if opts.self_test:
         return _test()
