@@ -99,7 +99,7 @@ see <https://github.com/trentm/python-markdown2/wiki/Extras> for details):
 """FurryGamesIndex patched/modified python-markdown2
 see https://github.com/FurryGamesIndex/python-markdown2
 """
-__fgi_patch_ver__ = 4
+__fgi_patch_ver__ = 5
 
 __version_info__ = (2, 3, 10)
 __version__ = '.'.join(map(str, __version_info__)) + "+FGIv" + str(__fgi_patch_ver__)
@@ -1591,6 +1591,11 @@ class Markdown(object):
         demote_headers = self.extras.get("demote-headers")
         if demote_headers:
             n = min(n + demote_headers, 6)
+
+        min_n = self.extras.get("x-FGI-min-header-level")
+        if min_n:
+            n = max(n, min_n)
+
         header_id_attr = ""
         if "header-ids" in self.extras:
             header_id = self.header_id_from_text(header_group,
