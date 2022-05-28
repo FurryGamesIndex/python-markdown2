@@ -1436,7 +1436,7 @@ class Markdown(object):
                     if is_img:
                         img_class_str = self._html_class_str_from_tag("img")
 
-                        result = '<img src="%s" alt="%s"%s%s%s' \
+                        result = '<img load="lazy" src="%s" alt="%s"%s%s%s' \
                             % (_html_escape_url(url, safe_mode=self.safe_mode),
                                _xml_escape_attr(link_text),
                                title_str,
@@ -1492,7 +1492,7 @@ class Markdown(object):
                             title_str = ''
                         if is_img:
                             img_class_str = self._html_class_str_from_tag("img")
-                            result = '<img src="%s" alt="%s"%s%s%s' \
+                            result = '<img load="lazy" src="%s" alt="%s"%s%s%s' \
                                 % (_html_escape_url(url, safe_mode=self.safe_mode),
                                    _xml_escape_attr(link_text),
                                    title_str,
